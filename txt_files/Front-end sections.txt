@@ -1,0 +1,62 @@
+Front-end sections
+
+(xiopedia/) # Landing page
+    ***page1***
+- header
+    -> {icon with dropdown_menu inside(on_click)},
+        iocs, malware(includes malware & malware families), groups, campaigns, about
+
+- body
+    -> search bar
+    -> website description
+    -> rotating recent ioc section
+        --> card_format if possible
+    -> 
+        ? - Dropdown menu with all categories
+- Font color - White
+- Background(header/body) color - Dark Blue(Teal) with special effects
+
+    ***page2***
+- categories
+    ioc : description, statistics
+    description, statistics : malware_families
+    groups : description, statistics
+    description, statistics : campaigns
+
+- Footer bg-color - black(contact info, about)
+    -> persistent throughout all pages
+
+
+(xiopedia/categories)
+:/
+    -> Search bar
+    -> Option_box (iocs, malware_families, groups, campaigns)
+    -> Description & statistics
+    * for malware, supply both malware & tool categories
+    * provide a sample of 1st entry of each categories in grid form
+        format : {name : id} 
+    (clickable) box_outline colors
+        - ioc : green
+        - malware_families : idk
+        - groups : yellow
+        - campaigns : Blue
+        - malware : red
+        - tools : orange
+
+(xiopedia/categories/<Option_box>/id)
+:Option_box/id
+    -> box_option_name
+    -> description
+        --> related info
+        --> references
+    -> associated groups/campaigns
+        * clickable entities - returns respective urls
+
+
+*things to consider once design is done
+- CORS
+- updating of database
+    * resave the 
+- 
+
+
