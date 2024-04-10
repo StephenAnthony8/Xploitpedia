@@ -4,3 +4,6 @@
 # .swp files
 .*.swp
 .*.swo
+
+# vscode files
+.vscode/*
