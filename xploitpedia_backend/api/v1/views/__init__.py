@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" Xiopedia blueprint setup(s) """
+""" api blueprint setup(s) """
 
 from flask import Blueprint
 
-xiopedia_views = Blueprint('xiopedia_views', __name__, url_prefix='/api/v1')
+app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
 # views imports here
     # ioc
@@ -12,3 +12,5 @@ xiopedia_views = Blueprint('xiopedia_views', __name__, url_prefix='/api/v1')
     # campaigns
     # malware
     # tools
+from api.v1.views.stiix_items import *
+from api.v1.views.iocs import *

@@ -6,13 +6,11 @@ from os import getenv
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models.base_models import Base
-from models.body_ioc import BodyPayload
-from models.envelop_ioc import EnvelopPayload
+from models.ioc_envelop_body import BodyPayload, EnvelopPayload
 from models.ip_ioc import IpBotnet, IpPayload
-from models.md5_ioc import Md5Payload
-from models.sha1_ioc import Sha1Payload
-from models.sha3_ioc import Sha3Payload
-from models.sha256_ioc import Sha256Payload
+# hashes
+from models.ioc_hashes import Md5Payload, Sha1Payload, Sha3Payload,\
+    Sha256Payload
 from models.domain_ioc import DomainBotnet, DomainPayload,\
     DomainSkimming
 from models.stiix_data import StiixCampaign, StiixGroup,\
@@ -64,15 +62,22 @@ class MySqJson:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+    
+    # Stiix / ioc methods
+    def get_count(self, obj):
+        """ Returns a count of all objects within a table """
+        return (self.__session.query(obj).count())
 
-    # retrieval methods
-    def item_get(self, obj=None, id=None, category=None):
+    def item_get(self, obj=None, id=None, category=None, item=None):
         """ retrieves a stiix object by its class name or id """
 
         stiix_obj = single_obj = None
         if (id): # single item via id
-            stiix_obj = self.__session.query(obj).where(obj.id == id)
-            single_obj = stiix_obj[0].to_dict()
+            stiix_obj = self.__session.query(obj).where(obj.id == id).first()
+            if (stiix_obj):
+                single_obj= stiix_obj if item else stiix_obj.to_dict()
+            else:
+                return None
         if (category): # malware or tools
             stiix_obj = self.__session.query(obj).where(obj.x_type == category)
         else: # other categories without consideration of other 2 parameters
@@ -84,18 +89,52 @@ class MySqJson:
         """ retrieves an ioc object by its cls_name | id | category """
         return ()'''
     
+    # stiix methods
     def stiix_ref_get(self, obj, obj_id):
         """ retrieves all stiix linked objects via id """
 
         item = self.item_get(obj, obj_id)
-        rtn_item = item.to_dict()
-        
+        rtn_item = item.get('external_references')
+        return (rtn_item)
+
 
     def stiix_links_get(self, obj, obj_id):
         """ retrieves all stiix linked objects via id"""
+
+        stiix_keys = [
+            'group_software', 'group_campaign',
+            'campaign_software', 'campaign_group',
+            'software_group', 'software_campaign'
+        ]
+        rtn_dict ={}
+        #item = 
+        rtn_item = self.item_get(obj, obj_id)
+        rtn_item_keys = rtn_item.keys()
+        for item in stiix_keys:
+            if item in rtn_item_keys:
+                rtn_dict.update({item: rtn_item.get(item)})
+        
+        return (rtn_dict)
     
-    def get_first_item(self, obj):
+    def stiix_get_first_item(self, obj=None, tag=None):
         """ retrieves first item from a table """
+
+        if obj:
+            return_list = ['id', 'name', 'description', 'type']
+            return_item = {}
+            if tag:
+                item = self.__session.query(obj).filter(obj.x_type == tag).first()
+            else:
+                item = self.__session.query(obj).first()
+            item_dict = item.to_dict()
+            for key in return_list:
+                if key == 'description':
+                    return_item.update({key: item.get_description().get('string')})
+                else:
+                    return_item.update({key: item_dict.get(key)})
+
+            return (return_item)
+        return (None)
 
     
 

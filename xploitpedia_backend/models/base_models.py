@@ -35,10 +35,14 @@ class IocBaseModel:
 
     def to_dict(self):
         """ returns a dictionary version of the input """
-        dict_items = {key: value for key, value in self.__dict__.items()}
+        dict_items = {}
+
+        for key, value in self.__dict__.items():
+            if key in ['first_seen_utc', 'last_seen_utc'] and value is not None:
+                dict_items.update({key: value.isoformat()[:10]})
+            else:
+                dict_items.update({key: value})
         return(dict_items)
-
-
 
 
 class StiixBaseModel:
@@ -53,6 +57,10 @@ class StiixBaseModel:
     x_mitre_version = Column(Float)
     external_references = Column(JSON, nullable=False)
     x_mitre_contributors = Column(JSON, nullable=True)
+
+
+    """ def __str__(self): """
+
 
     def to_dict(self):
         """ converts all objects to their dictionary format """
@@ -74,8 +82,14 @@ class StiixBaseModel:
                     )
                 elif value is None:
                     dict_items.update({key: 'data unavailable'})
+            elif key == 'x_type':
+                dict_items.update({'type': value})
             else:
-                dict_items.update({key: value})
+                if key not in ['x_mitre_version', 'cls_name', '_sa_instance_state']:
+                    if key in ['created', 'modified']:
+                        dict_items.update({key: value.isoformat()[:10]})
+                    else:
+                        dict_items.update({key: value})
         return (dict_items)
 
     def get_external_references(self):
@@ -110,7 +124,7 @@ class StiixBaseModel:
                 r'\(https?:[\w/.-]*\)',
                 '',
                 self.description
-                )[0]
+                )[0].split('(Citation:')[0]
             
             
             return (rtn)#, citation)#, y)

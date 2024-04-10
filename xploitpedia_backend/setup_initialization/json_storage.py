@@ -124,12 +124,8 @@ def ioc_to_sql(serial):
     from models.url_ioc import UrlBotnet, UrlPayload
     from models.domain_ioc import DomainBotnet, DomainPayload, DomainSkimming
     from models.ip_ioc import IpBotnet, IpPayload
-    from models.envelop_ioc import EnvelopPayload
-    from models.body_ioc import BodyPayload
-    from models.md5_ioc import Md5Payload
-    from models.sha256_ioc import Sha256Payload
-    from models.sha3_ioc import Sha3Payload
-    from models.sha1_ioc import Sha1Payload
+    from models.ioc_envelop_body import EnvelopPayload, BodyPayload
+    from models.ioc_hashes import Md5Payload, Sha256Payload, Sha3Payload, Sha1Payload
     storage.reload()
     diocs = {
         'url.payload_delivery': UrlPayload,
