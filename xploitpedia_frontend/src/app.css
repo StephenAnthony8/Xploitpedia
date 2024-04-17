@@ -1,15 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* @import "~@fortawesome/fontawesome-free/css/all.css";
+ */
 html {
     scroll-behavior: smooth;
 }
 
-* {
+* .roboto {
     font-family: 'Roboto', sans-serif;
 }
 
 h1, h2, h3, .poppins {
-    font-family: 'Poppins' sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
+
+.p_color {
+    color: gainsboro;
 }
