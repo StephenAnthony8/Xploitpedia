@@ -120,12 +120,13 @@ class MySqJson:
         rtn_list =[]
         #item = 
         rtn_item = self.item_get(obj, obj_id)
-        rtn_item_keys = rtn_item.keys()
-        for item in stiix_keys:
-            if item in rtn_item_keys and isinstance(rtn_item.get(item), dict):
-                rtn_list.append({'name':item, 'content': [{'id': key, "name": value} for key, value  in rtn_item.get(item).items()]})
-            elif item in rtn_item_keys and isinstance(rtn_item.get(item), str):
-                rtn_list.append({'name':item, 'content': []}) 
+        if (isinstance(rtn_item, dict)):
+            rtn_item_keys = rtn_item.keys()
+            for item in stiix_keys:
+                if item in rtn_item_keys and isinstance(rtn_item.get(item), dict):
+                    rtn_list.append({'name':item, 'content': [{'id': key, "name": value} for key, value  in rtn_item.get(item).items()]})
+                elif item in rtn_item_keys and isinstance(rtn_item.get(item), str):
+                    rtn_list.append({'name':item, 'content': []}) 
         
         return (rtn_list)
     
@@ -142,7 +143,7 @@ class MySqJson:
             item_dict = item.to_dict()
             for key in return_list:
                 if key == 'description':
-                    return_item.update({key: item.get_description().get('string')})
+                    return_item.update({key: item.get_description()})
                 else:
                     return_item.update({key: item_dict.get(key)})
 

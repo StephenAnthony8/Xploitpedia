@@ -4,6 +4,7 @@ export let referenceContent;
 /* export let stiixLink; */
 export let mainBody;
 import {linkedLinks, capitalizeLetter } from '$lib/LandingPage';
+    import Main from './Main.svelte';
 /*  = [
         {name: 123, url: 'http://beatbox.com'},
         {name: 123, url: 'http://beatbox.com'}
@@ -29,33 +30,27 @@ import {linkedLinks, capitalizeLetter } from '$lib/LandingPage';
         </div>
 
         <!-- Additional info: replace with labels from correct variable -->
-        <div class=" px-6 py-4 lg:w-[60%] border-[7px] border-solid border-slate-400 rounded-lg h-[230px] bg-stone-900"><!-- lg:mr-40   -->
+        <div class=" px-6 py-4 lg:w-[60%] border-[7px] border-solid border-slate-400 rounded-lg h-fit bg-stone-900"><!-- lg:mr-40   -->
             <p><b>ID: </b><span>{mainBody.id}</span></p>
             <p><b>Type: </b><span>{mainBody.type}</span></p>
-            <p><b>Aliases: </b><span>{mainBody.aliases}</span></p>
-            <p><b>First Seen: </b><span>{mainBody.last_seen}</span></p>
-            <p><b>Last Seen: </b><span>{mainBody.first_seen}</span></p>
-            <p><b>Contributors: </b><span>{mainBody['x_mitre_contributors']}</span></p>
+            <p><b>Aliases: </b><span>{(mainBody.aliases ? mainBody.aliases : mainBody['x_mitre_aliases'])}</span></p>
+            {#if mainBody.last_seen}
+                <p><b>First Seen: </b><span>{mainBody.last_seen}</span></p>
+            {/if}
+            {#if mainBody.first_seen}
+                <p><b>Last Seen: </b><span>{mainBody.first_seen}</span></p>
+            {/if}
+            {#if mainBody['x_mitre_contributors'] }
+                
+                <p><b>Contributors: </b><span>{mainBody['x_mitre_contributors']}</span></p>
+            {/if}
         </div>
     </div>
 
     
     <div class="mt-[140px] mr-80 w-[80%] flex grow content-center flex-col min-h-[190px] h-[190px] border-[7px] border-solid border-slate-400 rounded-lg divide-y-[7px] divide-inherit bg-stone-900"> <!-- references, other linked stiix objects -->
-        <!-- group links 1 -->
-        <!-- <div class="h-[33.3%] flex">
-            <div class="flex grow max-w-[15%] justify-center border-r-[7px] border-slate-400">
-                <p class="my-auto "><b class="text-xl">Group link 1</b></p>
-            </div>
-            <article class="flex grow my-auto px-10 ">
-                {#each referenceContent as link, count}
     
-                    <p class="tracking-widest">{ (count === 0 ? "": ",  " )+ link.name}</p>
-    
-                {/each}
-            </article>
-        </div> -->
-    
-        <!-- Group links 2 -->
+        <!-- Group links -->
         {#each linksContent as stiix_links }
             
         <div class="h-[33.3%] flex overflow-auto">

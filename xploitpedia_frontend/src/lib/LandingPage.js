@@ -7,7 +7,7 @@ export const frontendRoute = "/";
 /* Header */
 export const tabs = [
     {name: 'Campaigns', link: '/campaigns', color: 'hover:text-cyan-400'},
-    {name: 'IOCs', link: '/iocs', color: 'hover:text-emerald-400'},
+    /* {name: 'IOCs', link: '/iocs', color: 'hover:text-emerald-400'}, */
     {name: 'Malware', link: '/malware', color: ' hover:text-rose-400'},
     {name: 'Threat Groups', link: '/threat_groups', color: 'hover:text-orange-400'},
     {name: 'Tools', link: '/tools', color: 'hover:text-red-400'},
@@ -29,7 +29,7 @@ export const categories = [
     /* link should be the full link (route + name of the category in lowercase  with spaces replaced by '_')*/
     {name: 'Campaigns', description: 'Unauthorized operations undertaken by one or more threat groups against a given target', link: '/campaigns', body: objectPlaceholder},
     
-    {name: 'Indicators Of Compromise', description: 'Forensic evidence of potential inrusions by threat actors on a system or network', link: '/iocs', body: objectPlaceholder},
+    /* {name: 'Indicators Of Compromise', description: 'Forensic evidence of potential inrusions by threat actors on a system or network', link: '/iocs', body: objectPlaceholder}, */
     
     {name: 'Malware', description: 'Intrusive software developed by cybercriminals to commit various neafious activities', link: '/malware', body: objectPlaceholder},
     /* {name: 'Malware Families', description: 'Categorizations of malware according to similar characteristics and operations', link: '#', body: objectPlaceholder}, */

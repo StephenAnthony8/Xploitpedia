@@ -1,5 +1,5 @@
 <script>
-    let pageName = 'Threat Groups';
+    let pageName = 'Indicators Of Compromise';
     import { page } from '$app/stores';  
     import List from "../../components/List.svelte";
     import Placeholder from '../../components/Placeholder.svelte';
@@ -9,16 +9,13 @@
 </script>
 
 <div class="flex flex-row">
-    {#key $page.url.pathname}
+    {#await getItems('iocs/' + 'categories')}
+    <Placeholder />
         
-        {#await getItems('stiix/' + 'groups')}
-            <Placeholder />
-            
-        {:then data}
-            <List category={ pageName } currentId={ pageNameID } listItems={data}/>
-            <slot/>
-            
-        {/await}
-    {/key}
+    {:then data}
+    <List category={ pageName } currentId={ pageNameID } listItems={data}/>
+        
+    <slot/>
+    {/await}
 
 </div>

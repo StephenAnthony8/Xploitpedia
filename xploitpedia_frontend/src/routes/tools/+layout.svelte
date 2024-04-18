@@ -11,7 +11,7 @@
 <div class="flex flex-row">
     {#key $page.url.pathname}
         
-        {#await getItems('stiix/' + 'campaigns')}
+        {#await getItems('stiix/' + 'tool')}
             <Placeholder />
             
         {:then data}

@@ -5,7 +5,7 @@
     export let landingPageItems = {};
 
     /* loop attaching API responses to categories object */
-    for (let i = 0; i < 5; i++ ) {
+    for (let i = 0;categories[i]; i++ ) {
         if (categories[i]['name'] !== 'Indicators Of Compromise') {
             categories[i]['body'] = landingPageItems[0][categories[i]['name']];
         }
