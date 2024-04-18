@@ -13,7 +13,7 @@ import requests
 from json import dumps
 """ Filter limit is 10 - 20 items per request """
 ioc_objects = {
-    'Payload': [BodyPayload, EnvelopPayload, IpPayload, DomainPayload, UrlPayload],
+    'Payload': [IpPayload, DomainPayload, UrlPayload], #BodyPayload, EnvelopPayload,
     'Botnet': [IpBotnet, DomainBotnet, UrlBotnet],
     'Hash': [Md5Payload, Sha1Payload, Sha256Payload, Sha3Payload],
     'Skimming': [DomainSkimming]
@@ -87,15 +87,20 @@ def get_ioc_id(iocs, id):
 
 # get recent iocs
 @app_views.route('/iocs/recents', methods=['GET'])
-def get_recent_iocs():
+@app_views.route('/iocs/recents/<first>', methods=['GET'])
+def get_recent_iocs(first=None):
     """ return all recent iocs (7 days) """
-    query_tags = dumps({"query": "get_iocs", "days": 7})
+    query_tags = dumps({"query": "get_iocs", "days": 1})
 
     recent_iocs = requests.post(
         'https://threatfox-api.abuse.ch/api/v1/', data=query_tags)
     
     if recent_iocs.reason == 'OK':
         # returns a list of the recent iocs
+        if first == 'first':
+            return(jsonify(recent_iocs.json().get('data')[0]))
+        elif first != 'None':
+            abort(404)
         return (jsonify(recent_iocs.json().get('data')))
 
 # get iocs by search NAME query
@@ -119,3 +124,20 @@ def query_ioc_filter(ioc_category, search_option):#, ioc_option, filter_option):
 
     else:
         abort(404)
+
+# get ioc display item
+@app_views.route('/iocs/display_item', methods=['GET'])
+def ioc_display_item():
+    """ returns a ioc display item """
+
+    return_item = storage.item_get(IpPayload).first().to_dict()
+
+    return (jsonify(return_item))
+
+@app_views.route('iocs/categories', methods=['GET'])
+def ioc_categories():
+    """ returns a list of the IOC categories """
+
+    return_dict = [{'name': item, 'category': item} for item in ioc_objects.keys()]
+
+    return (jsonify(return_dict))

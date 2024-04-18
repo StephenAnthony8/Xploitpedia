@@ -30,6 +30,7 @@ def close_db(error):
     """ closes the database instance """
     storage.close()
 
+
 if __name__ == '__main__':
     host = getenv('XIOPEDIA_API_HOST', '0.0.0.0')
     port = getenv('XIOPEDIA_API_PORT', '5000')

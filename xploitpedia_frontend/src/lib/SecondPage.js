@@ -1,7 +1,4 @@
-/* stiix page items */
-export const apiLink = '';
-/* export const category = 'Malware';
- */
+/* Second Page (categories)  */
 
 
 export const itemStiix = [
@@ -32,9 +29,6 @@ export const itemStiix = [
 ];
 
 /* functions */
-export function fetchStiixIDS (x) {
-    return itemStiix;
-};
 
 export function whichCategory (category) {
 

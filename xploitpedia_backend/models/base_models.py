@@ -41,7 +41,8 @@ class IocBaseModel:
             if key in ['first_seen_utc', 'last_seen_utc'] and value is not None:
                 dict_items.update({key: value.isoformat()[:10]})
             else:
-                dict_items.update({key: value})
+                if key != '_sa_instance_state':
+                    dict_items.update({key: (value if key != 'threat_type' else value.replace('_', ' '))})
         return(dict_items)
 
 
@@ -127,7 +128,7 @@ class StiixBaseModel:
                 )[0].split('(Citation:')[0]
             
             
-            return (rtn)#, citation)#, y)
+            return (rtn.get('string'))#, citation)#, y)
 
 
     """ lists (Use a JSON column)

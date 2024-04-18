@@ -94,7 +94,14 @@ class MySqJson:
         """ retrieves all stiix linked objects via id """
 
         item = self.item_get(obj, obj_id)
-        rtn_item = item.get('external_references')
+        rtn_item = []
+        for ref in item.get('external_references'):
+            if (ref.get('url')):
+                rtn_item.append(
+                    {'name': ref.get('source_name'), 'link': (ref.get('url'))}
+                    )
+
+
         return (rtn_item)
 
 
@@ -106,21 +113,27 @@ class MySqJson:
             'campaign_software', 'campaign_group',
             'software_group', 'software_campaign'
         ]
-        rtn_dict ={}
+
+        link_dict = {
+            'intrusion-set'
+        }
+        rtn_list =[]
         #item = 
         rtn_item = self.item_get(obj, obj_id)
         rtn_item_keys = rtn_item.keys()
         for item in stiix_keys:
-            if item in rtn_item_keys:
-                rtn_dict.update({item: rtn_item.get(item)})
+            if item in rtn_item_keys and isinstance(rtn_item.get(item), dict):
+                rtn_list.append({'name':item, 'content': [{'id': key, "name": value} for key, value  in rtn_item.get(item).items()]})
+            elif item in rtn_item_keys and isinstance(rtn_item.get(item), str):
+                rtn_list.append({'name':item, 'content': []}) 
         
-        return (rtn_dict)
+        return (rtn_list)
     
     def stiix_get_first_item(self, obj=None, tag=None):
         """ retrieves first item from a table """
 
         if obj:
-            return_list = ['id', 'name', 'description', 'type']
+            return_list = ['id', 'name', 'description', 'type', 'created']
             return_item = {}
             if tag:
                 item = self.__session.query(obj).filter(obj.x_type == tag).first()

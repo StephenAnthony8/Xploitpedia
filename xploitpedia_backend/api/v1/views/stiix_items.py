@@ -60,19 +60,27 @@ def get_ref_items(options, obj_id):
             return(jsonify(rtn_obj))
     abort(404)
 
-# get first stiix item 
-@app_views.route('stiix/<options>/display_item', methods=['GET'])
-def get_first_item(options):
-    """ returns first item from the list """
+# get display stiix items
+@app_views.route('stiix/display_items', methods=['GET'])
+def get_first_item():
+    """ returns all first items from the list """
+    access_dict = {
+        'campaigns': 'Campaigns',
+        'malware': 'Malware',
+        'groups': 'Threat Groups',
+        'tool': 'Intrusion Tools'
+        }
 
-    if options in option:
+    return_dict = {}
+    """ if options in option: """
+    
+    for options, item in option.items():
         tag = options if options in ['tool', 'malware'] else None
-        return_response = jsonify(
-            storage.stiix_get_first_item(option.get(options), tag)#.first()
-        )
+        return_response = storage.stiix_get_first_item(item, tag)#.first()
 
-        return(return_response)
-    abort(404)
+        return_dict[access_dict.get(options)] = return_response
+
+    return(jsonify(return_dict))
 
 #get items by category
 @app_views.route('stiix/<options>', methods=['GET'])
@@ -87,7 +95,7 @@ def get_items_by_category(options):
         else:
             items = storage.item_get(category)
 
-        return_items = {item.id: item.name for item in items}
+        return_items = [{'id': item.id, 'name': item.name} for item in items]
     
         return (jsonify(return_items))
 

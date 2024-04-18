@@ -1,11 +1,10 @@
 <script>
 
-    import {categories }  from '$lib/LandingPage';
+    import { categories }  from '$lib/LandingPage';
 
     export let landingPageItems = {};
 
-    /* console.log(landingPageItems['Campaigns'].name); */
-
+    /* loop attaching API responses to categories object */
     for (let i = 0; i < 5; i++ ) {
         if (categories[i]['name'] !== 'Indicators Of Compromise') {
             categories[i]['body'] = landingPageItems[0][categories[i]['name']];
@@ -23,8 +22,8 @@
 <!-- two page scroll enabled -->
 <main class="flex flex-col flex-1 p-4">
     
+    <!-- landing page  description-->
     <section id="introPage" class="max-w-full grid gap-10 py-8 sm:py-14">
-        <!-- landing page -->
         <div class="mx-auto lg:max-w-[80%] flex justify-items-center flex-col lg:justify-center text-center lg:text-center gap-6 md:gap-8 ">
             <h2 class="font-semibold leading-relaxed text-4xl/none sm:text-5xl/snug md:text-6xl/tight">
                 Your go-to platform for in-depth insights into the intricate world of cybersecurity threats.
@@ -39,19 +38,14 @@
         </div>
         </div>
     </section>
-
+    <!-- landing page section 2: category showcase -->
     <section id="landingPage" class="max-w-full grid gap-10 my-8 sm:my-14">
-        <!-- alternatives to the categories options -->
-        <!-- split categories into tools & malware -->
-        <!-- alternating sections inside of examples -->
-        <!-- Format: Example : description -->
-        
         <div>
             <h1 class="w-[80%] mx-auto my-8 font-semibold sm:my-12 text-2xl sm:text-3xl lg:text-4xl tracking-normal sm:tracking-wider text-center italic underline decoration-violet-950 decoration-[1px] underline-offset-[10px] poppins ">XploitPedia Information Categories</h1>
         </div>
-        <!-- Commented out section is the prod section -->
-
-            {#each categories as category, count}
+        
+        {#each categories as category, count}
+        <!-- Format: Example : description -->
                 <div class={"w-[80%] mx-auto flex justify-center " + (count % 2 ? 'flex-row-reverse' : 'flex-row')}>
                     <a href={category.link + '/' + category.body.id} class="mx-[5%] w-[45%] flex flex-col justify-center bg-slate-930 border border-violet-950 rounded-3xl shadow md:flex-row md:max-w-xl duration-500 transition-ease-in-out hover:bg-gray-100/10 tracking-wide p-4">
                         <div class="flex">

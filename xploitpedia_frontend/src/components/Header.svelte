@@ -1,5 +1,5 @@
 <script>
-    import { frontendRoute, placeholder, tabs } from '$lib/LandingPage';
+    import { frontendRoute, tabs } from '$lib/LandingPage';
     export let y;
 
 </script>

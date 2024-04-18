@@ -2,7 +2,7 @@
 /* general */
 export const apiRoute = "http://localhost:5000/api/v1/";
 export const frontendRoute = "/";
-export const placeholder = '#=#';
+
 
 /* Header */
 export const tabs = [
@@ -16,7 +16,7 @@ export const tabs = [
 
 
 /* Main */
-/* to be removed */
+/* For testing purposes */
 const objectPlaceholder = {
     name: 'Remcos Rat',
     campaigns : 'Unknown',
@@ -24,13 +24,7 @@ const objectPlaceholder = {
     description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos amet sunt molestiae vitae ex tenetur tempora cum quo sed eum excepturi rerum, in, accusantium quod dolor sint iste? Consequuntur, fuga.'
 }
 
-
-
-/* const landingpage = await */ 
-export const category_pathname = '#';
-export const object_pathname = '#';
-
-/* to be removed */
+/* Main page data */
 export const categories = [
     /* link should be the full link (route + name of the category in lowercase  with spaces replaced by '_')*/
     {name: 'Campaigns', description: 'Unauthorized operations undertaken by one or more threat groups against a given target', link: '/campaigns', body: objectPlaceholder},
@@ -47,18 +41,13 @@ export const categories = [
 ];
 
 
-/* footer imports */
-export const links = [
-    {name: 'LinkedIn', link: 'https://www.linkedin.com/in/antony-steve-949008220/', identifier: 'Anthony Stephen'},
-    {name: 'Github',link: 'https://github.com/StephenAnthony8', identifier: 'StephenAnthony8'}
-]
 
-/* landing page functions */
+/* Main page functions */
 export const getItems = async (item) => {
     const response = await fetch(apiRoute + item);
     const returnItems = await response.json();
     const filteredData = returnItems;
-
+    
     
     return filteredData;
 }
@@ -70,8 +59,28 @@ export const getAllItems = async () => {
     const stiix = await response_stiix;
     const iocs = await response_ioc;
     return [stiix, iocs];
-    /* return stiix; */
 }
 
+/* footer imports */
+export const links = [
+    {name: 'LinkedIn', link: 'https://www.linkedin.com/in/antony-steve-949008220/', identifier: 'Anthony Stephen'},
+    {name: 'Github',link: 'https://github.com/StephenAnthony8', identifier: 'StephenAnthony8'}
+]
+
+export const linkedLinks ={
+    'intrusion-set': frontendRoute + "threat_groups/",
+    'tool': frontendRoute + 'tools/',
+    'malware': frontendRoute + 'malware/'
+}
+
+export function capitalizeLetter (x) {
+    const firstLetter = x.charAt(0).toUpperCase();
+
+    /* const firstLetterCap = firstLetter.toUpperCase(); */
+
+    const remainingLetters = x.slice(1);
+
+    return(firstLetter + remainingLetters);
+}
 
 
