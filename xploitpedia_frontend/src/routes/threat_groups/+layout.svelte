@@ -9,13 +9,16 @@
 </script>
 
 <div class="flex flex-row">
-    {#await getItems('stiix/' + 'groups')}
-    <Placeholder />
+    {#key $page.url.pathname}
         
-    {:then data}
-    <List category={ pageName } currentId={ pageNameID } listItems={data}/>
-        
-    <slot/>
-    {/await}
+        {#await getItems('stiix/' + 'campaigns')}
+            <Placeholder />
+            
+        {:then data}
+            <List category={ pageName } currentId={ pageNameID } listItems={data}/>
+            <slot/>
+            
+        {/await}
+    {/key}
 
 </div>

@@ -1,14 +1,30 @@
 <script>
     import { page } from '$app/stores';
     import Stiix from '../../../components/Stiix.svelte';
-        /* include js imports here */
+    import Placeholder from '../../../components/Placeholder.svelte';
+    import { getItems } from '$lib/LandingPage';
 
-    const pageName = $page.url.pathname.split('/')[2];
-    const returnContent = [
-        {name: 123, url: 'http://beatbox.com'},
-        {name: 123, url: 'http://beatbox.com'}
-    ] 
+        /* include js imports here */
+    const splitUrl = $page.url.pathname.split('/');
+    const pageName = splitUrl[2];
+    const stiixLink = 'stiix/groups/';
+
+    const getLinksReferences = async () => {
+        
+        const getLinks = await getItems((stiixLink + 'linked_items/' + pageName));
+        const getRefs = await getItems((stiixLink + 'reference_urls/' + pageName));
+        const getMainBody = await getItems((stiixLink + pageName));
+
+        const returnItems = [getLinks, getRefs, getMainBody];
+
+        return (returnItems);
+    }; 
 
 </script>
+{#await getLinksReferences()}
+    <Placeholder />
+{:then data}
+<Stiix referenceContent={data[1]} linksContent={data[0]} stiixLink={stiixLink} mainBody={data[2]}/>
 
-<Stiix referenceContent={returnContent}/>
+    
+{/await}
